@@ -1,0 +1,36 @@
+name: release-build
+
+on:
+  push:
+
+jobs:
+  release:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Build
+        uses: burrunan/gradle-cache-action@v2
+        with:
+          job-id: jdk17
+          arguments: bootJar bootWar
+          properties: vaadin.productionMode=true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract version
+        id: version
+        run: echo ::set-output name=value::$(git describe --abbrev=0 | sed -e "s/^v//")
+      - uses: actions/upload-artifact@v4
+        with:
+          name: output
+          path: |
+            ./acrarium/build/libs/acrarium-${{ steps.version.outputs.value }}.war
+            ./acrarium/build/libs/acrarium-${{ steps.version.outputs.value }}.jar
