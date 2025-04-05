@@ -33,5 +33,4 @@ jobs:
         with:
           name: output
           path: |
-            ./acrarium/build/libs/acrarium-${{ steps.version.outputs.value }}.war
-            ./acrarium/build/libs/acrarium-${{ steps.version.outputs.value }}.jar
+            acrarium/build/libs
