@@ -88,7 +88,7 @@ fun HasComponents.loginForm(loginI18n: LoginI18n, initializer: LoginForm.() -> U
 }
 
 fun HasComponents.userEditor(userRepository: com.faendir.acra.persistence.user.UserRepository, grantRoles: Set<Role>, onSuccess: () -> Unit) {
-    add(UserEditor(userRepository, null, null, grantRoles, onSuccess))
+    add(UserEditor(userRepository, null, null, grantRoles, {}, onSuccess))
 }
 
 fun <T : Any, F : Any, S : Any> HasComponents.basicLayoutPersistingFilterableGrid(
