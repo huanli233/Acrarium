@@ -57,7 +57,7 @@ class UserManager(private val userRepository: UserRepository, private val appRep
             setSizeFull()
             basicLayoutPersistingFilterableGrid(userRepository.getProvider()) {
                 setWidthFull()
-                setSelectionMode(Grid.SelectionMode.NONE)
+                selectionMode = Grid.SelectionMode.NONE
                 column({ it.username }) {
                     setSortable(UserAuthorities.Sort.USERNAME)
                     setCaption(Messages.USERNAME)
@@ -89,7 +89,7 @@ class UserManager(private val userRepository: UserRepository, private val appRep
                 }
                 forEach(appRepository.getAllNames()) { app ->
                     column(ComponentRenderer { user: UserAuthorities ->
-                        ComboBox(null, *Permission.Level.values()).apply {
+                        ComboBox(null, *Permission.Level.entries.toTypedArray()).apply {
                             value = user.getPermissionLevel(app.id)
                             addValueChangeListener {
                                 userRepository.setPermission(user.username, app.id, it.value)

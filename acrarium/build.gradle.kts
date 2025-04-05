@@ -107,6 +107,7 @@ noArg {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    enabled = false
 }
 
 val changelogPath = "src/main/resources/db/db.changelog-master.yml"

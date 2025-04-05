@@ -46,7 +46,12 @@ class AccountView(
             setSizeFull()
             justifyContentMode = FlexComponent.JustifyContentMode.CENTER
             alignItems = FlexComponent.Alignment.CENTER
-            add(UserEditor(userRepository, mailService, SecurityUtils.getUsername()) { Notification.show(getTranslation(Messages.SUCCESS)) })
+            add(UserEditor(
+                userRepository = userRepository,
+                mailService = mailService,
+                existingUsername = SecurityUtils.getUsername(),
+                onFailure = { Notification.show(getTranslation(Messages.FAILURE)) },
+            ) { Notification.show(getTranslation(Messages.SUCCESS)) })
         }
     }
 

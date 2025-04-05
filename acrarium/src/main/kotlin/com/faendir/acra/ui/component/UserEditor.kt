@@ -37,7 +37,7 @@ import java.util.*
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
-class UserEditor(userRepository: UserRepository, mailService: MailService?, existingUsername: String? = null, grantRoles: Set<Role> = emptySet(), onSuccess: () -> Unit) :
+class UserEditor(userRepository: UserRepository, mailService: MailService?, existingUsername: String? = null, grantRoles: Set<Role> = emptySet(), onFailure: () -> Unit, onSuccess: () -> Unit) :
     Composite<FlexLayout>() {
     private val isExistingUser = existingUsername != null
     private val user = MutableUser(existingUsername ?: "", "", existingUsername?.let { userRepository.find(existingUsername)?.mail } ?: "")
@@ -102,7 +102,9 @@ class UserEditor(userRepository: UserRepository, mailService: MailService?, exis
         content.add(repeatPassword)
         binder.readBean(user)
         val button = Translatable.createButton(Messages.CONFIRM) {
-            if (binder.writeBeanIfValid(user)) {
+            if (user.username == "everyone") {
+                onFailure()
+            } else if (binder.writeBeanIfValid(user)) {
                 if (isExistingUser) {
                     userRepository.update(user.username, user.rawPassword.takeIf { it.isNotBlank() }, user.mail.takeIf { it.isNotBlank() })
                 } else {
