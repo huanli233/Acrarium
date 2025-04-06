@@ -88,4 +88,5 @@ inline fun sql(
     sql: String
 ) = sql
 
-fun Instant.toUtcLocal(): LocalDateTime = LocalDateTime.ofInstant(this, ZoneId.systemDefault())
+fun Instant.toUtcLocal(zoneOffset: ZoneOffset? = null): LocalDateTime =
+    zoneOffset?.let { offset -> LocalDateTime.ofInstant(this, offset) } ?: LocalDateTime.ofInstant(this, ZoneId.systemDefault())

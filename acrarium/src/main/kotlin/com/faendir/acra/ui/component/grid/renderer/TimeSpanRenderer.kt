@@ -26,7 +26,7 @@ import java.util.*
 
 open class TimeSpanRenderer<T>(valueProvider: (T) -> LocalDateTime?) : ComponentRenderer<Span, T>({ t: T ->
     valueProvider(t)?.let {
-        Span(PrettyTime(Locale.US).formatUnrounded(it)).apply {
+        Span(PrettyTime(Locale.getDefault()).formatUnrounded(it)).apply {
             element.setProperty("title", DateTimeFormatter.ISO_DATE_TIME.format(it))
         }
     } ?: Span()
