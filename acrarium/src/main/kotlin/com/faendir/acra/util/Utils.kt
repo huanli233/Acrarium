@@ -21,6 +21,7 @@ import proguard.retrace.ReTrace
 import java.io.*
 import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -87,4 +88,4 @@ inline fun sql(
     sql: String
 ) = sql
 
-fun Instant.toUtcLocal(): LocalDateTime = LocalDateTime.ofInstant(this, ZoneOffset.UTC)
+fun Instant.toUtcLocal(): LocalDateTime = LocalDateTime.ofInstant(this, ZoneId.systemDefault())
